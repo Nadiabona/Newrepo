@@ -9,7 +9,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       #докер берет переменные окружения из .env
     volumes:
-      - diploma_pg_12_data_1:/var/lib/postgresql/data/ #здесь записываем в том данные
+      - diploma_pg_data_1:/var/lib/postgresql/data/ #здесь записываем в том данные
 
     healthcheck: #проверка того, что у нас приложение здорово, принимает пользователя и базу
       test: pg_isready -U ${POSTGRES_USER} -d {POSTGRES_DB}
@@ -19,6 +19,7 @@ services:
 #делаем сборку
   api:
     image: nadiabona/diploma_12:latest
+    
     env_file: .env
     depends_on:
       db:
@@ -27,7 +28,7 @@ services:
     volumes:
       - django_static:/opt/static
   frontend:
-    image: sermalenk/skypro-front:lesson-36
+    image: sermalenk/skypro-front:lesson-35
     ports:
       - "80:80"
     depends_on:
@@ -38,5 +39,5 @@ services:
        - django_static:/usr/share/nginx/html/static #сюда мы положим статику
 
 volumes:
-  diploma_pg_12_data_1: #здесь мы создаем том
+  diploma_pg_data_1: #здесь мы создаем том
   django_static:
